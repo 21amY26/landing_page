@@ -20,28 +20,26 @@ export default function EmergencyAlert({ visible, onDismiss }: EmergencyAlertPro
           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
           className="fixed top-0 left-0 right-0 z-50"
         >
-          <div className="bg-gradient-to-r from-red-600 via-red-500 to-red-600 text-white shadow-2xl shadow-red-500/30">
-            <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
-              <div className="flex items-center gap-3 flex-1 min-w-0">
-                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-white/20 flex items-center justify-center animate-pulse">
+          <div className="border-b border-red-400/15 bg-[linear-gradient(90deg,rgba(153,27,27,0.95),rgba(220,38,38,0.9),rgba(153,27,27,0.95))] text-white shadow-2xl shadow-red-950/30">
+            <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3">
+              <div className="flex min-w-0 flex-1 items-center gap-3">
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white/15 animate-pulse">
                   <AlertOctagon size={22} className="text-white" />
                 </div>
                 <div className="min-w-0">
-                  <p className="font-bold text-sm sm:text-base leading-tight">
-                    🚨 EMERGENCY DETECTED
+                  <p className="text-sm font-bold leading-tight sm:text-base">
+                    EMERGENCY DETECTED
                   </p>
-                  <p className="text-red-100 text-xs sm:text-sm truncate">
+                  <p className="truncate text-xs text-red-100 sm:text-sm">
                     Life-threatening symptoms identified. Seek immediate medical help.
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 flex-shrink-0">
+              <div className="flex flex-shrink-0 items-center gap-2">
                 <a
                   href="tel:112"
-                  className="flex items-center gap-2 bg-white text-red-600 font-bold rounded-full
-                    px-4 py-2 text-sm hover:bg-red-50 transition-all hover:scale-105
-                    active:scale-95 shadow-lg"
+                  className="flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-red-600 shadow-lg transition-all hover:bg-red-50 hover:scale-105 active:scale-95"
                 >
                   <Phone size={16} />
                   <span className="hidden sm:inline">Call Ambulance</span>
@@ -49,8 +47,7 @@ export default function EmergencyAlert({ visible, onDismiss }: EmergencyAlertPro
                 </a>
                 <button
                   onClick={onDismiss}
-                  className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center
-                    hover:bg-white/25 transition-colors"
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15 transition-colors hover:bg-white/25"
                   aria-label="Dismiss emergency alert"
                 >
                   <X size={16} />

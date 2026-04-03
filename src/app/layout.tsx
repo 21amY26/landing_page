@@ -1,18 +1,19 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
-
 export const metadata: Metadata = {
-  title: 'Prognos AI – Medical Triage',
-  description: 'AI-powered multimodal healthcare triage system. Instant medical assessment using text and images.',
-  themeColor: '#f8fafc',
+  title: 'Prognos.ai',
+  description:
+    'AI-powered health assistant for instant symptom insights, verified medical guidance, and real-world next steps.',
   appleWebApp: {
     capable: true,
-    title: 'Prognos AI',
+    title: 'Prognos.ai',
     statusBarStyle: 'black-translucent',
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#082108',
 };
 
 export default function RootLayout({
@@ -22,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} h-screen w-full flex flex-col overflow-hidden bg-slate-50 antialiased selection:bg-healing-200`}>
+      <body className="min-h-screen w-full bg-[var(--background)] text-[var(--foreground)] antialiased selection:bg-[rgba(120,222,171,0.35)] selection:text-white">
         {children}
       </body>
     </html>

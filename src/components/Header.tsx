@@ -1,12 +1,7 @@
 'use client';
 
-import React from 'react';
-import {
-  Activity,
-  Phone,
-  Zap,
-  ShieldCheck,
-} from 'lucide-react';
+import Link from 'next/link';
+import { Activity, ChevronLeft, Phone, ShieldCheck, Zap } from 'lucide-react';
 
 interface HeaderProps {
   isVerifiedMode: boolean;
@@ -15,65 +10,67 @@ interface HeaderProps {
 
 export default function Header({ isVerifiedMode, onToggleMode }: HeaderProps) {
   return (
-    <header className="sticky top-0 z-40 glass border-b border-slate-200/60">
-      <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <div className="flex items-center gap-2.5">
-          <div className="relative w-9 h-9 rounded-xl bg-gradient-to-br from-healing-500 to-healing-700 flex items-center justify-center shadow-lg shadow-healing-500/25">
-            <Activity size={20} className="text-white" />
-            <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-400 rounded-full border-2 border-white" />
-          </div>
-          <div>
-            <h1 className="text-lg font-bold text-slate-900 leading-none tracking-tight">
-              Prognos<span className="text-healing-600">.AI</span>
-            </h1>
-            <p className="text-[10px] text-slate-400 font-medium tracking-wider uppercase">
-              Medical Triage
-            </p>
+    <header className="sticky top-0 z-40 px-4 pt-4 sm:px-6">
+      <div className="mx-auto flex h-16 max-w-5xl items-center justify-between rounded-full border border-white/10 bg-[rgba(7,26,7,0.72)] px-4 shadow-[0_16px_40px_rgba(0,0,0,0.2)] backdrop-blur-xl sm:px-5">
+        <div className="flex items-center gap-3">
+          <Link
+            href="/"
+            className="hidden items-center gap-1 rounded-full border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-medium text-[var(--muted-foreground)] transition-colors hover:border-[rgba(120,222,171,0.2)] hover:text-white sm:inline-flex"
+          >
+            <ChevronLeft size={14} />
+            Home
+          </Link>
+
+          <div className="flex items-center gap-2.5">
+            <div className="relative flex h-10 w-10 items-center justify-center rounded-2xl border border-[rgba(120,222,171,0.2)] bg-[rgba(120,222,171,0.08)] text-[var(--accent)] shadow-[0_12px_30px_rgba(120,222,171,0.08)]">
+              <Activity size={18} />
+            </div>
+            <div>
+              <h1 className="text-lg font-semibold leading-none tracking-tight text-white">
+                Prognos<span className="text-[var(--accent)]">.AI</span>
+              </h1>
+              <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-[var(--muted-foreground)]">
+                Health Check
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* Controls */}
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* Mode Toggle */}
           <button
             onClick={onToggleMode}
-            className={`group relative flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold
-              transition-all duration-300 border
+            className={`group relative flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold transition-all duration-300
               ${
                 isVerifiedMode
-                  ? 'bg-healing-50 border-healing-200 text-healing-700 hover:bg-healing-100'
-                  : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+                  ? 'border-[rgba(120,222,171,0.28)] bg-[rgba(120,222,171,0.12)] text-white hover:bg-[rgba(120,222,171,0.16)]'
+                  : 'border-white/10 bg-white/[0.04] text-[var(--muted-foreground)] hover:text-white'
               }`}
             title={isVerifiedMode ? 'Verified Mode: Extra thorough analysis' : 'Fast Mode: Quick triage'}
           >
             {isVerifiedMode ? (
-              <ShieldCheck size={14} className="text-healing-600" />
+              <ShieldCheck size={14} className="text-[var(--accent)]" />
             ) : (
-              <Zap size={14} className="text-amber-500" />
+              <Zap size={14} className="text-amber-400" />
             )}
             <span className="hidden sm:inline">
               {isVerifiedMode ? 'Verified' : 'Fast'}
             </span>
-            {/* Toggle pill */}
             <div
-              className={`relative w-7 h-4 rounded-full transition-colors duration-300
-                ${isVerifiedMode ? 'bg-healing-500' : 'bg-slate-300'}`}
+              className={`relative h-4 w-7 rounded-full transition-colors duration-300 ${
+                isVerifiedMode ? 'bg-[rgba(120,222,171,0.75)]' : 'bg-white/18'
+              }`}
             >
               <div
-                className={`absolute top-0.5 w-3 h-3 rounded-full bg-white shadow transition-transform duration-300
-                  ${isVerifiedMode ? 'translate-x-3.5' : 'translate-x-0.5'}`}
+                className={`absolute top-0.5 h-3 w-3 rounded-full bg-white shadow transition-transform duration-300 ${
+                  isVerifiedMode ? 'translate-x-3.5' : 'translate-x-0.5'
+                }`}
               />
             </div>
           </button>
 
-          {/* Emergency SOS */}
           <a
             href="tel:112"
-            className="flex items-center gap-1.5 rounded-full bg-red-500 hover:bg-red-600
-              text-white px-3 py-1.5 text-xs font-bold transition-all
-              shadow-lg shadow-red-500/25 hover:shadow-red-500/40
-              hover:scale-105 active:scale-95 animate-[pulse-glow_2s_ease-in-out_infinite]"
+            className="flex items-center gap-1.5 rounded-full border border-red-400/20 bg-red-500/90 px-3 py-2 text-xs font-bold text-white shadow-[0_12px_30px_rgba(239,68,68,0.18)] transition-all hover:bg-red-500 active:scale-95"
           >
             <Phone size={13} />
             <span className="hidden sm:inline">SOS</span>

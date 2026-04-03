@@ -1,6 +1,7 @@
 'use client';
+/* eslint-disable @next/next/no-img-element */
 
-import React, { useState, useRef, ChangeEvent, KeyboardEvent } from 'react';
+import React, { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
 import { Send, Image as ImageIcon, Mic, X, Camera, Paperclip } from 'lucide-react';
 import { fileToBase64, compressImage } from '@/lib/image-utils';
 
@@ -106,31 +107,30 @@ export default function InputSystem({ onSendMessage, isLoading }: InputSystemPro
 
   return (
     <div 
-      className="p-3 bg-white border-t border-slate-100"
+      className="border-t border-white/8 bg-[rgba(7,26,7,0.72)] p-3 backdrop-blur-xl"
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
       {isHovering && (
-        <div className="absolute inset-0 z-50 drop-overlay rounded-t-2xl flex items-center justify-center">
-          <div className="bg-white rounded-xl shadow-xl px-6 py-4 flex items-center gap-3">
-            <ImageIcon className="text-healing-500" />
-            <span className="font-semibold text-slate-700">Drop image to attach</span>
+        <div className="absolute inset-0 z-50 flex items-center justify-center rounded-t-[28px] border-2 border-dashed border-[rgba(120,222,171,0.35)] bg-[rgba(120,222,171,0.08)]">
+          <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-[#0a1c0d] px-6 py-4 shadow-xl">
+            <ImageIcon className="text-[var(--accent)]" />
+            <span className="font-semibold text-white">Drop image to attach</span>
           </div>
         </div>
       )}
 
-      <div className="max-w-4xl mx-auto relative rounded-2xl border border-slate-200 bg-slate-50 overflow-hidden shadow-sm focus-within:ring-2 focus-within:ring-healing-500/20 focus-within:border-healing-400 transition-all">
+      <div className="relative mx-auto max-w-5xl overflow-hidden rounded-[26px] border border-white/10 bg-white/[0.04] shadow-[0_18px_40px_rgba(0,0,0,0.14)] transition-all focus-within:border-[rgba(120,222,171,0.25)] focus-within:ring-2 focus-within:ring-[rgba(120,222,171,0.12)]">
         
-        {/* Attached Images Strips */}
         {images.length > 0 && (
-          <div className="px-3 pt-3 pb-1 flex gap-2 overflow-x-auto">
+          <div className="flex gap-2 overflow-x-auto px-3 pb-1 pt-3">
             {images.map((img, i) => (
-              <div key={i} className="relative w-16 h-16 flex-shrink-0 group rounded-lg overflow-hidden border border-slate-200">
+              <div key={i} className="group relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg border border-white/10">
                 <img src={img.preview} alt={`Upload ${i}`} className="w-full h-full object-cover" />
                 <button
                   onClick={() => removeImage(i)}
-                  className="absolute top-1 right-1 w-5 h-5 bg-black/50 hover:bg-black/80 rounded-full flex items-center justify-center text-white transition-colors"
+                  className="absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/55 text-white transition-colors hover:bg-black/80"
                 >
                   <X size={12} />
                 </button>
@@ -139,19 +139,18 @@ export default function InputSystem({ onSendMessage, isLoading }: InputSystemPro
           </div>
         )}
 
-        <div className="flex items-end gap-2 p-2 relative">
-          {/* Attach Button Menu */}
+        <div className="relative flex items-end gap-2 p-2">
           <div className="flex gap-1 pb-1">
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="p-2 text-slate-400 hover:text-healing-600 hover:bg-healing-50 rounded-xl transition-colors"
+              className="rounded-xl p-2 text-white/45 transition-colors hover:bg-white/[0.06] hover:text-[var(--accent)]"
               title="Attach Image"
             >
               <Paperclip size={20} />
             </button>
             <button
               onClick={() => cameraInputRef.current?.click()}
-              className="p-2 text-slate-400 hover:text-healing-600 hover:bg-healing-50 rounded-xl transition-colors sm:hidden"
+              className="rounded-xl p-2 text-white/45 transition-colors hover:bg-white/[0.06] hover:text-[var(--accent)] sm:hidden"
               title="Take Photo"
             >
               <Camera size={20} />
@@ -181,17 +180,17 @@ export default function InputSystem({ onSendMessage, isLoading }: InputSystemPro
             onChange={handleTextChange}
             onKeyDown={handleKeyDown}
             placeholder="Describe symptoms or medical queries..."
-            className="flex-1 max-h-[120px] bg-transparent border-0 resize-none py-2.5 px-2 text-slate-700 placeholder:text-slate-400 focus:ring-0 leading-relaxed min-h-[44px]"
+            className="min-h-[44px] max-h-[120px] flex-1 resize-none border-0 bg-transparent px-2 py-2.5 leading-relaxed text-white placeholder:text-white/38 focus:ring-0"
             disabled={isLoading}
           />
 
           <div className="flex gap-1 pb-1">
             <button
-              className="p-2 text-slate-400 hover:text-slate-600 active:bg-slate-200 rounded-xl transition-colors relative group"
+              className="group relative rounded-xl p-2 text-white/45 transition-colors hover:bg-white/[0.06] hover:text-white/70"
               title="Voice Input (Coming Soon)"
             >
               <Mic size={20} />
-              <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap pointer-events-none transition-opacity">
+              <span className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-[#051406] px-2 py-1 text-[10px] text-white opacity-0 transition-opacity group-hover:opacity-100">
                 Coming Soon
               </span>
             </button>
@@ -201,8 +200,8 @@ export default function InputSystem({ onSendMessage, isLoading }: InputSystemPro
               disabled={(!text.trim() && images.length === 0) || isLoading}
               className={`p-2 rounded-xl flex items-center justify-center transition-all ${
                 (!text.trim() && images.length === 0) || isLoading
-                  ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
-                  : 'bg-healing-600 text-white hover:bg-healing-700 hover:scale-105 active:scale-95 shadow-md shadow-healing-500/20'
+                  ? 'cursor-not-allowed bg-white/[0.06] text-white/25'
+                  : 'bg-[var(--accent)] text-[#052311] shadow-[0_14px_30px_rgba(120,222,171,0.18)] hover:bg-[#91e5bb] hover:scale-105 active:scale-95'
               }`}
             >
               <Send size={18} className={isLoading ? 'animate-pulse' : ''} />
