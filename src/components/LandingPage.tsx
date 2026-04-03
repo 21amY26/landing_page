@@ -2,6 +2,7 @@
 
 import type { ComponentType } from 'react';
 
+import Image from 'next/image';
 import { Activity, BadgeCheck, Camera, MessageSquareText, Mic, PhoneCall, Pill, ShieldCheck, Watch, Waves } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -48,8 +49,15 @@ export function LandingPage() {
         <div className="mx-auto max-w-6xl">
           <header className="flex items-center justify-between rounded-full border border-white/8 bg-white/[0.03] px-4 py-3 backdrop-blur-xl sm:px-6">
             <div className="flex items-center gap-3">
-              <div className="grid h-10 w-10 place-items-center rounded-2xl border border-[rgba(120,222,171,0.18)] bg-[rgba(120,222,171,0.08)] text-sm font-semibold text-[var(--accent)]">
-                P
+              <div className="relative h-10 w-10 overflow-hidden rounded-2xl border border-[rgba(120,222,171,0.18)] bg-[rgba(120,222,171,0.08)]">
+                <Image
+                  src="/prognos-logo.svg"
+                  alt="Prognos.ai logo"
+                  width={40}
+                  height={40}
+                  className="h-full w-full object-cover"
+                  priority
+                />
               </div>
               <div>
                 <p className="text-sm font-medium text-white">Prognos.ai</p>

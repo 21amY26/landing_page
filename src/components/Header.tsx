@@ -1,7 +1,8 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
-import { Activity, ChevronLeft, Phone, ShieldCheck, Zap } from 'lucide-react';
+import { ChevronLeft, Phone, ShieldCheck, Zap } from 'lucide-react';
 
 interface HeaderProps {
   isVerifiedMode: boolean;
@@ -22,8 +23,15 @@ export default function Header({ isVerifiedMode, onToggleMode }: HeaderProps) {
           </Link>
 
           <div className="flex items-center gap-2.5">
-            <div className="relative flex h-10 w-10 items-center justify-center rounded-2xl border border-[rgba(120,222,171,0.2)] bg-[rgba(120,222,171,0.08)] text-[var(--accent)] shadow-[0_12px_30px_rgba(120,222,171,0.08)]">
-              <Activity size={18} />
+            <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl border border-[rgba(120,222,171,0.2)] bg-[rgba(120,222,171,0.08)] shadow-[0_12px_30px_rgba(120,222,171,0.08)]">
+              <Image
+                src="/prognos-logo.svg"
+                alt="Prognos.ai logo"
+                width={40}
+                height={40}
+                className="h-full w-full object-cover"
+                priority
+              />
             </div>
             <div>
               <h1 className="text-lg font-semibold leading-none tracking-tight text-white">
