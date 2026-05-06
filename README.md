@@ -1,36 +1,118 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Prognos.ai
+
+Prognos.ai is a Next.js app that provides an AI-powered health check chat experience (text + images) with **risk-level triage** and **actionable next steps**.
+
+### What’s in this repo
+
+- Landing page at `/` (product overview + UI sections)
+- Health check app at `/check`
+- Chat API powered by Google Gemini (`/api/chat`)
+- “Prognos Cart” fulfillment UI that renders recommended OTC items and fetches purchase options via `/api/search`
+
+### Key features (current implementation)
+
+- **Text + image input**: attach one or more images and ask for a triage assessment
+- **Risk badge**: responses are tagged as `[ROUTINE]`, `[URGENT]`, or `[EMERGENCY]`
+- **Verified mode toggle**: UI toggle that asks the model to be “extra thorough”
+- **Emergency cue**: shows an emergency alert when `[EMERGENCY]` is detected; includes an SOS phone link (`tel:112`)
+- **Fulfillment recommendations**: the model can append a hidden `_CART_DATA_..._CART_DATA_` JSON block; the UI parses it and shows product cards
+
+> Medical note: Prognos.ai is an assessment/triage helper and is **not** a substitute for professional medical advice or diagnosis.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js (recommended: Node 20+)
+- An API key for Gemini (see environment variables below)
+
+### 1) Install dependencies
+
+```bash
+npm install
+```
+
+### 2) Configure environment variables
+
+Create `.env.local` in the repo root:
+
+```bash
+GEMINI_API_KEY="YOUR_GEMINI_KEY"
+```
+
+### 3) Run the dev server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` — start dev server
+- `npm run build` — production build
+- `npm run start` — run production server
+- `npm run lint` — run ESLint
 
-## Learn More
+## Tech stack
 
-To learn more about Next.js, take a look at the following resources:
+- Next.js (`next@16.2.2`)
+- React (`react@19.2.4`)
+- Tailwind CSS (`tailwindcss@4`) via `@tailwindcss/postcss`
+- Google GenAI SDK (`@google/genai`) for Gemini calls
+- UI/animation: `lucide-react`, `framer-motion`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contributing / dev notes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- This repo uses **Next.js 16.x**; if you’re making code changes, prefer referencing the bundled docs in `node_modules/next/dist/docs/` since conventions may differ from older Next.js releases.
 
-## Deploy on Vercel
+## Project structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```text
+src/
+  app/
+    page.tsx                # Landing page (/)
+    check/page.tsx          # Health check app (/check)
+    api/
+      chat/route.ts         # POST /api/chat (Gemini)
+      search/route.ts       # GET /api/search?q=... (mock search + sorting)
+  components/               # Chat UI, landing sections, fulfillment UI
+  lib/                      # Types + helpers (risk parsing, etc.)
+public/                     # Static assets (logo, icons)
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## API overview
+
+### `POST /api/chat`
+
+Accepts:
+
+```json
+{
+  "message": "string",
+  "images": [{ "data": "base64", "mimeType": "image/png" }],
+  "isVerifiedMode": true
+}
+```
+
+Returns:
+
+```json
+{ "response": "string" }
+```
+
+Notes:
+
+- Requires `GEMINI_API_KEY`
+- Uses `gemini-2.5-flash`
+- The system prompt enforces a leading risk tag and (optionally) a `_CART_DATA_..._CART_DATA_` block for recommended products
+
+### `GET /api/search?q=...`
+
+Returns mocked fulfillment products (Amazon/Blinkit/Tata 1mg/Zepto) and sorts by price ascending.
+
+## Deployment
+
+- Works on any Next.js-compatible platform (Vercel, Node server, containers).
+- Set `GEMINI_API_KEY` in the deployment environment.
